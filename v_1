@@ -1,0 +1,166 @@
+#include <stdio.h>
+#include <stdlib.h>
+enum{STROK,STREMPLY,STRFULL,STRDIFF,STRSIZE=150,MAXLENGHT=65536};
+typedef char * string1;//
+void InitStr(string1 *st,unsigned n);/*Выделение динамической памяти под строку st,
+ содержащую от 0 до n символов. Значением n определяется максимальное количество символов,
+ которое может вместить строка (зависит от кол-ва выделенной памяти).*/
+void WriteToStr(string1 st,char * s);// Запись данных в строку st из строки s. Строка s заканчивается нулевым символом '\0'.
+void WriteFromStr(char *s,string1 st);//Запись данных в строку s из строки st. Строка s заканчивается нулевым символом '\0'.
+void InputStr(string1 st); //Ввод строки s с клавиатуры.
+void OutputStr(string1 st);// Вывод строки s на экран монитора.
+int Comp(string1 st1,string1 st2);//Сравнивает строки s1 и s2. Возвращает 0 если s1 = s2; 1, если s1 > s2; -1, если s1 < s2.
+void Delete(string1 s,unsigned Index, unsigned Count );//Удаляет Count символов из строки s, начиная с позиции Index.
+void Insert(string1 Subs,string1 s,unsigned Index);//Вставляет подстроку SubS в строку s, начиная с позиции  Index.
+void Concat(string1 s1,string1 s2,string1  srez);//Выполняет конкатенацию строк s1 и s2. Результат помещает в srez.
+void Copy(string1 s,unsigned Index,unsigned Count,string1 Subs );//Записывает Count символов в строку Subs из строки s, начиная с позиции Index.
+unsigned Length(string1 s);//Возвращает текущую длину строки S.
+unsigned Pos(string1 SubS ,string1 s);//Возвращает позицию, начиная с которой в строке s располагается подстрока SubS.
+void DoneStr(string1 s);//Удаляет строку s из динамической памяти.
+int StrError; // variable of errors
+
+void realsize(string1 s,unsigned n)//присваивает s текущий размер строки
+ {union k {unsigned int i;char st[2];};
+    union k f;f.i=n;
+       for(int j=0;j<2;++j)
+            *(s+j)=f.st[j];
+ }
+void InitStr(string1 *st,unsigned n)
+{
+    union k {unsigned int i;char st[2];};
+    union k f;f.i=0;
+    if(n<MAXLENGHT)
+    {
+        *st=(string1)calloc(sizeof(char),n+3);
+       for(int j=0;j<2;++j)
+            *(*st+j)=f.st[j];
+         *(*st+3)='\0';
+       // printf("%u\n",f.i);
+    }
+    else StrError=STRDIFF;
+}
+void DoneStr(string1 s)
+{
+    free(s);
+}
+
+unsigned Length(string1 s)
+{
+    union k {unsigned int i;char st[2];};//Вынести за функцию
+    union k f;f.i=0;
+    for(int j=0;j<2;++j)
+            f.st[j]=*(s+j);
+    return f.i;
+}
+
+void InputStr(string1 st)
+{   int i=0;
+    string1 s=st+2;
+    unsigned len=Length(st);
+    if(!len) {for( s[i]=getc(stdin), i=0 ;i<STRSIZE && s[i]!='\n';)
+                s[++i]=getc(stdin);
+                s[i]='\0';
+                realsize(st,i);}
+    else StrError =STRFULL;
+}
+
+void OutputStr(string1 st)
+{
+    unsigned len=Length(st);
+    if(len) fputs(st+2,stdin);
+    else StrError =STREMPLY;
+}
+
+void WriteToStr(string1 st,char * s)// Запись данных в строку st из строки s. Строка s заканчивается нулевым символом '\0'.
+{
+    string1 s1=st+2;
+    unsigned i =0;
+    while(i<STRSIZE && (s1[i]=s[i]) )++i;
+    realsize(st,i-1);
+    StrError=i<STRSIZE?i:STRFULL;
+}
+
+void WriteFromStr(char *s,string1 st)//Запись данных в строку s из строки st. Строка s заканчивается нулевым символом '\0'.
+{
+    string1 s1=st+2;
+    unsigned i =0;
+    while(i<STRSIZE && (s[i]=s1[i]) )++i;
+    StrError=i<STRSIZE?i:STRFULL;
+}
+int Comp(string1 st1,string1 st2)//Сравнивает строки s1 и s2. Возвращает 0 если s1 = s2; 1, если s1 > s2; -1, если s1 < s2.
+{
+    int len1=Length(st1),len2=Length(st2),i=0;
+    char *p1=st1+2,*p2=st2+2;
+    if (len1<STRSIZE+1 && len2<STRSIZE+1)
+    while( (p1[i]==p2[i]) && p1[i]!='\0' && p2[i]!='\n')++i;
+    return p1[i]-p2[i];
+}
+void Delete(string1 s,unsigned Index, unsigned Count )//Удаляет Count символов из строки s, начиная с позиции Index.
+{
+    int len=Length(s),i,j;
+    if(len>(Index+Count))
+      {for(i=Index+Count,j=Index;i<len;++i)
+           s[j]=s[i];
+        s[j]='\0';
+        realsize(s,j);
+      }
+    else StrError=STRFULL;
+}
+
+void Insert(string1 Subs,string1 s,unsigned Index)//Вставляет подстроку SubS в строку s, начиная с позиции  Index.
+{
+int len=Length(Subs),llen=Length(s),i,j,r;
+char *ss1=Subs+2,*ss2=s+2;
+if(STRSIZE>=len+llen && Index<llen)
+{
+    for(i=len+llen,j=Index,r=0;j<llen;++i,++j,++r)
+        ss2[i-r]=ss2[llen-r];
+	for(i=llen,j=Index,r=0;r<len;++i,++j,++r)
+	  ss2[j]=ss1[r];
+	  ss1[Index+len]='\0';
+	  realsize(s,len+Index);
+}
+else StrError=STRFULL;
+}
+
+void Concat(string1 s1,string1 s2,string1  srez)//Выполняет конкатенацию строк s1 и s2. Результат помещает в srez.
+{
+  unsigned len=Length(s1),llen=Length(s2),lllen=Length(srez),i,j;
+  char *ss1=s1+2,*ss2=s2+2;
+  if(lllen) {StrError=STRFULL;return;}
+  if(STRSIZE>=len+llen)
+  {
+      for(i=0;i<len;++i)
+        srez[i]=ss1[i];
+        char *ss=srez;
+      for(j=0;j<lllen;++j)
+        ss[j]=ss2[j];
+      ss[j]='\0';
+      realsize(srez,j+i);
+  }
+  else StrError=STRDIFF;
+}
+void Copy(string1 s,unsigned Index,unsigned Count,string1 Subs )//Записывает Count символов в строку Subs из строки s, начиная с позиции Index.
+{
+unsigned len=Length(Subs),llen=Length(s),i,j,r;
+char *ss1=s+2,*ss2=Subs+2;
+if(STRSIZE>=len+Count && Index+Count<llen)
+{
+	for(j=Index,i=len,r=0;r<Count && j!=llen;++i,++j,++r)
+	  ss2[i]=ss1[j];
+	  ss2[r+i]='\0';
+	  realsize(Subs,r+i);
+}
+else StrError=STRFULL;
+}
+
+int main()
+{
+    int n=STRSIZE;
+    string1 s;
+    printf("Hello world!\n");
+    InputStr(s);
+    InitStr(&s,n);
+    printf("%u",Length(s));
+    return 0;
+}
