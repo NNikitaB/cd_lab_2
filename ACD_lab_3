@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 #include <time.h>
 #define N 5
 #define M 5
@@ -157,15 +158,24 @@ sec sort_shell(arr a,int n)
 
     sec time_1=0,time_2=0;
     time_1=clock()/CLOCKS_PER_SEC;
+    int t = (log((double)n)/log((double)3))-1,k,hh;
+    if (t < 1)t=1;
 
+    h[t] = 1;
+for (k=t-1; k >= 1; k--)
+     h[k-1] = 3*h[k]+1;
 
-    for(int i=0;i<n-1;++i)
-    {
-        int p=0;
-        for (int j=i;j<n-1;++j)
-            if(a[j]>a[j+1])  swap(a+i,a+j),p=j;
-      i=p;
-    }
+for (int s=t-1;s>=0;s--){
+hh = h[s];
+for (int j = hh;j<=n;j++){
+i = j-hh;
+k = a[j];
+while ((k <= a[i])&&(i >= 0)){
+a[i+hh] = a[i];
+i = i-hh;
+} ;
+a[i+hh] = k;
+} }
     time_2=clock()/CLOCKS_PER_SEC;
 
 del_arr(h);
@@ -174,5 +184,6 @@ del_arr(h);
 }
 sec sort_choir(arr a,int n)
 sec sort_pyramid(arr a,int n)
+
 
 
