@@ -1,0 +1,178 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#define N 5
+#define M 5
+
+typedef int* arr ;
+typedef time_t sec;
+
+
+sec sort_inc(arr a,int n);
+sec sort_choice(arr a,int n);
+sec sort_swap(arr a,int n);
+sec sort_swap_1(arr a,int n);
+sec sort_swap_2(arr a,int n);
+sec sort_shell(arr a,int n);
+sec sort_choir(arr a,int n);
+sec sort_pyramid(arr a,int n);
+
+void del_arr(arr a)
+{
+    free(a);
+}
+
+void swap(arr i,arr j)
+{
+    arr tmp =i;i=j;j=tmp;
+}
+
+arr create_arr_null(int n)
+{
+    arr a=(arr)calloc(sizeof(int),n);
+    return a;
+}
+arr create_arr_up(int n)
+{
+    arr a=(arr)calloc(sizeof(int),n);
+    for(int i=0;i<n;++i) a[i]=i;
+    return a;
+}
+
+arr create_arr_down(int n)
+{
+    arr a=(arr)calloc(sizeof(int),n);
+    for(int i=0,j=n;i<n;++i,--j) a[i]=j;
+    return a;
+}
+
+arr create_arr_rand(int n)
+{
+    arr a=(arr)calloc(sizeof(int),n);
+    for(int i=0;i<n;++i) a[i]=rand();
+    return a;
+}
+
+
+sec sort_inc(arr a,int n)
+{
+    sec time_1=0,time_2=0;
+    time_1=clock()/CLOCKS_PER_SEC;
+    for(int i=1;i<n;++i)
+    {
+        int tmp = a[i],j=--i;
+        while(j>=0 && tmp<a[j])
+            {
+                a[j+1]=a[j];
+                --j;
+            }
+
+        a[j+1]=tmp;
+    }
+    time_2=clock()/CLOCKS_PER_SEC;
+    return time_2- time_1;
+}
+
+
+sec sort_choice(arr a,int n)
+{
+    sec time_1=0,time_2=0;
+    time_1=clock()/CLOCKS_PER_SEC;
+
+
+    for(int i=0;i<n-1;++i)
+    {
+        int tmp = a[i],index=i;
+        for (int j=i+1;j<n;++j)
+            if(tmp>a[j])tmp=a[j],index=j;
+        a[index]=a[i];
+        a[i]=tmp;
+
+    }
+    time_2=clock()/CLOCKS_PER_SEC;
+
+
+    return time_2- time_1;
+}
+
+sec sort_swap(arr a,int n)
+{
+    sec time_1=0,time_2=0;
+    time_1=clock()/CLOCKS_PER_SEC;
+
+
+    for(int i=0;i<n-1;++i)
+    {
+        for (int j=i;j<n-1;++j)
+            if(a[j]>a[j+1])  swap(a+i,a+j);
+    }
+    time_2=clock()/CLOCKS_PER_SEC;
+
+
+    return time_2- time_1;
+}
+
+sec sort_swap_1(arr a,int n)
+{
+    int p;
+    sec time_1=0,time_2=0;
+    time_1=clock()/CLOCKS_PER_SEC;
+
+
+    for(int i=0;i<n-1;++i)
+    {
+        p=0;
+        for (int j=i;j<n-1;++j)
+            if(a[j]>a[j+1])  swap(a+i,a+j),++p;
+        if(p==0) break;
+    }
+    time_2=clock()/CLOCKS_PER_SEC;
+
+
+    return time_2- time_1;
+}
+
+sec sort_swap_2(arr a,int n)
+{
+    sec time_1=0,time_2=0;
+    time_1=clock()/CLOCKS_PER_SEC;
+
+
+    for(int i=0;i<n-1;++i)
+    {
+        int p=0;
+        for (int j=i;j<n-1;++j)
+            if(a[j]>a[j+1])  swap(a+i,a+j),p=j;
+      i=p;
+    }
+    time_2=clock()/CLOCKS_PER_SEC;
+
+
+    return time_2- time_1;
+}
+
+sec sort_shell(arr a,int n)
+{
+    arr h=create_arr_null(M);
+
+    sec time_1=0,time_2=0;
+    time_1=clock()/CLOCKS_PER_SEC;
+
+
+    for(int i=0;i<n-1;++i)
+    {
+        int p=0;
+        for (int j=i;j<n-1;++j)
+            if(a[j]>a[j+1])  swap(a+i,a+j),p=j;
+      i=p;
+    }
+    time_2=clock()/CLOCKS_PER_SEC;
+
+del_arr(h);
+
+    return time_2- time_1;
+}
+sec sort_choir(arr a,int n)
+sec sort_pyramid(arr a,int n)
+
+
