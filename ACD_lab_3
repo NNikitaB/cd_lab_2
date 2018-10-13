@@ -18,6 +18,8 @@ sec sort_shell(arr a,int n);
 sec sort_choir(arr a,int n);
 sec sort_pyramid(arr a,int n);
 
+
+void output(arr a,int n){ if(a!=NULL )for(int i=0;i<n;++i)printf("%i :",a[i]);printf("\n");}
 void del_arr(arr a)
 {
     free(a);
@@ -61,7 +63,7 @@ sec sort_inc(arr a,int n)
     time_1=clock()/CLOCKS_PER_SEC;
     for(int i=1;i<n;++i)
     {
-        int tmp = a[i],j=--i;
+        int tmp = a[i],j=i-1;
         while(j>=0 && tmp<a[j])
             {
                 a[j+1]=a[j];
@@ -71,7 +73,7 @@ sec sort_inc(arr a,int n)
         a[j+1]=tmp;
     }
     time_2=clock()/CLOCKS_PER_SEC;
-    return time_2- time_1;
+    return time_2 - time_1;
 }
 
 
@@ -138,19 +140,21 @@ sec sort_swap_2(arr a,int n)
     sec time_1=0,time_2=0;
     time_1=clock()/CLOCKS_PER_SEC;
 
-
-    for(int i=0;i<n-1;++i)
+    int i=0;
+    do
     {
         int p=0;
         for (int j=i;j<n-1;++j)
             if(a[j]>a[j+1])  swap(a+i,a+j),p=j;
       i=p;
-    }
+    }while(i);
     time_2=clock()/CLOCKS_PER_SEC;
 
 
     return time_2- time_1;
 }
+
+
 
 sec sort_shell(arr a,int n)
 {
@@ -158,32 +162,100 @@ sec sort_shell(arr a,int n)
 
     sec time_1=0,time_2=0;
     time_1=clock()/CLOCKS_PER_SEC;
-    int t = (log((double)n)/log((double)3))-1,k,hh;
+    int t = (log((double)n)/log((double)3))-1,k,hh,i;
     if (t < 1)t=1;
 
     h[t] = 1;
 for (k=t-1; k >= 1; k--)
      h[k-1] = 3*h[k]+1;
 
-for (int s=t-1;s>=0;s--){
-hh = h[s];
-for (int j = hh;j<=n;j++){
-i = j-hh;
-k = a[j];
-while ((k <= a[i])&&(i >= 0)){
-a[i+hh] = a[i];
-i = i-hh;
-} ;
-a[i+hh] = k;
-} }
+for (int s=t-1;s>=0;s--)
+    {
+        hh = h[s];
+        for (int j = hh;j<n;j++)
+           {
+               i = j-hh;
+               k = a[j];
+               while ((k <= a[i])&&(i >= 0))
+               {
+                  a[i+hh] = a[i];
+                  i = i-hh;
+               }
+               a[i+hh] = k;
+           }
+     }
+  time_2=clock()/CLOCKS_PER_SEC;
+
+  del_arr(h);
+
+  return time_2- time_1;
+}
+sec sort_choir(arr a,int n)
+{
+    sec time_1=0,time_2=0;
+    time_1=clock()/CLOCKS_PER_SEC;
+
+    //qsort(a,1,n)
+
     time_2=clock()/CLOCKS_PER_SEC;
 
-del_arr(h);
 
     return time_2- time_1;
 }
-sec sort_choir(arr a,int n)
+
+
+
+void sift(arr a,int left,int right)
+{
+    int i=left,j=(left<<1)+1,tmp=a[left];//j=2*+1
+    if((j<right)&& (a[j]<a[j+1]))++j;
+    while((j<=right) && (tmp<a[j]))
+    {
+        swap(a+i,a+j);
+        i=j;
+        j=(left<<1)+1;
+        if((j<right)&& (a[j]<a[j+1]))++j;
+    }
+}
 sec sort_pyramid(arr a,int n)
+{
+    sec time_1=0,time_2=0;
+    time_1=clock()/CLOCKS_PER_SEC;
+
+    int left=n/2, right=n-1;
+    while(left>0)sift(a,--left,right);
+    while(right>0){ swap(a,a+right); sift(a,left,--right); }
+
+
+    time_2=clock()/CLOCKS_PER_SEC;
+
+
+    return time_2- time_1;
+}
+int main()
+{ arr a,b,c,d,e,f,g,h;
+  a=create_arr_up(N);
+  sort_inc(a,N);
+  b=create_arr_up(N);
+  sort_choice(b,N);
+  c=create_arr_up(N);
+  sort_swap(c,N);
+  d=create_arr_up(N);
+  sort_swap_1(d,N);
+  e=create_arr_up(N);
+  sort_swap_2(e,N);
+  f=create_arr_up(N);
+  sort_shell(f,N);
+  g=create_arr_up(N);
+  sort_choir(g,N);
+  h=create_arr_up(N);
+  sort_pyramid(h,N);
+
+output(a,N);output(b,N);output(c,N);output(d,N);output(e,N);output(f,N);output(g,N);output(h,N);
+del_arr(a);del_arr(b);del_arr(c);del_arr(d);del_arr(e);del_arr(f);del_arr(g);del_arr(h);
+  return 0;
+}
+
 
 
 
