@@ -1,0 +1,13 @@
+# depslib dependency file v1.0
+1539950727 source:d:\project codeblocs\one_list\main.c
+	<stdio.h>
+	<stdlib.h>
+
+1540006667 source:d:\project codeblocs\one_list\one_list_h.c
+	"ONE_LIST_H.h"
+
+1540006747 d:\project codeblocs\one_list\one_list_h.h
+	<stdlib.h>
+	<stdio.h>
+	<string.h>
+
