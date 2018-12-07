@@ -1,0 +1,225 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+#define N 1
+
+int PEREST;
+typedef double** t_arr;
+typedef double* t_d;
+typedef double t_typ_d;
+
+void del_matr(t_arr a,int m,int n)
+{
+    for(int i=0;i<m;i++) free(a[i]);
+    free(a);
+}
+t_arr create_matr(int m,int n)
+{
+    t_arr a;
+    a=(t_arr)calloc(sizeof(t_d),m);
+    for(int i=0;i<m;i++) a[i]=(t_d)calloc(sizeof(t_typ_d),n);
+    return a;
+}
+void write_matr(t_arr a,int m,int n)
+{
+    size_t i,j;
+    for(i=0;i<m;i++)
+        {for(j=0;j<n;j++)
+           printf("%.2lf ",a[i][j]);
+          printf("\n");
+        }
+}
+int read_matr(t_arr a,int m,int n)
+{
+    size_t i,j;
+    printf("Write matr in line with space \n ");
+    for(i=0;i<m;i++)
+        for(j=0;j<n;j++)
+            scanf("%lf",(*(a+i)+j));
+    return i==m && j==n;
+}
+t_arr matr_in_a(t_arr b,int m,int n,t_typ_d a)
+{
+    t_arr g= create_matr(m,n);
+    size_t i,j;
+    for(i=0;i<m;i++)
+        for(j=0;j<n;j++)
+           *(*(g+i)+j)=a* *(*(b+i)+j);
+    return i==m && j==n?g:NULL;
+}
+t_arr matr_in_matr(t_arr a,int m1,int n1,t_arr b,int m2,int n2,int* m3,int* n3)
+{
+    t_arr c=NULL;
+    if(n1!=m2) return c;
+    c=create_matr(m1,n2);
+    size_t i,j;
+    *m3=m1;
+    *n3=n2;
+    for(i=0;i<m1;i++)
+        for(j=0;j<n2;j++)
+        {
+            c[i][j]=0;
+            size_t p,q;
+            for(p=0,q=0;(p<m1 && q<n2);p++,q++)
+                c[i][j]+=a[i][q]* b[p][j];
+        }
+
+  return c;
+}
+t_d matr_in_vect(t_arr a,int m1,int n1,t_d b,int n,int* n3)
+{
+    t_d c=NULL;
+    if(n1!=n) return c;
+    c=calloc(sizeof(t_typ_d),n);
+    size_t i,j;
+    *n3=n;
+    for(i=0;i<m1;i++)
+    {
+        c[i]=0;
+        for(j=0;j<n1;j++)
+            c[i]+=a[i][j]* b[j];
+    }
+  return c;
+}
+t_arr matr_add_matr(t_arr a,int m1,int n1,t_arr b,int m2,int n2)//складывает матрицу а с б
+{
+    if(m1!=m2 || n1!=n2) return 0;
+    t_arr g=a;// create_matr(m1,n1);
+    size_t i,j;
+    for(i=0;i<m1;i++)
+        for(j=0;j<n1;j++)
+           *(*(g+i)+j)=*(*(a+i)+j)+ *(*(b+i)+j);
+    return i==m1 && j==n1?g:NULL;
+}
+t_arr matr_subt_matr(t_arr a,int m1,int n1,t_arr b,int m2,int n2)//вычитает матрицу б из a
+{
+    if(m1!=m2 || n1!=n2) return 0;
+    t_arr g= create_matr(m1,n1);
+    size_t i,j;
+    for(i=0;i<m1;i++)
+        for(j=0;j<n1;j++)
+            *(*(g+i)+j)=*(*(a+i)+j)- *(*(b+i)+j);
+    return i==m1 && j==n1?g:NULL;
+}
+
+void swap(t_arr a,int m1, int n1,int m2,int n2)
+{
+    t_typ_d tmp=a[m1][n1]; a[m1][n1]=a[m2][n2]; a[m2][n2]=tmp;
+}
+t_arr matr_tr(t_arr a,int m,int n)
+{
+    t_arr g= create_matr(m,n);
+    size_t p,q;
+    for(p=0;p<m;p++)
+        for(q=0;q<n;q++)
+           g[p][q]=0;
+
+    t_arr g1= matr_add_matr(g,m,n,a,m,n);
+    del_matr(g,m,n);
+    for(size_t i=0;i<m;i++)
+        for(size_t j=i;j<n;j++)
+           swap(g1,i,j,j,i);
+    return g1;
+}
+
+int serch_max_el(t_arr a,int m,int n,int i)
+{
+    size_t t=i;
+
+    t_typ_d tmp=fabs(a[i][i]);
+    for(size_t j=i+1;j<m;j++)
+        if(fabs(a[j][i])>tmp)tmp=fabs(a[j][i]),t=j;
+
+        if(t!=i){ t_d tmp1=a[i];a[i]=a[t];a[t]=tmp1; PEREST++;}
+
+    return 0.01<a[i][i] || -0.01>a[i][i];
+}
+
+void treyg(t_arr a,t_arr b,t_d c,int n)
+{
+    size_t i,j;
+    for(i=0;i<n;i++)
+        for(j=0;j<n;j++)
+           if(i!=j)b[i][j]=-a[i][j]/a[i][i];
+           else b[i][j]=0.0;
+    i=0;
+    j=n;
+    for(i=0;i<n;i++) c[i]=-a[i][j]/a[i][i];
+}
+t_typ_d one_norma_matr(t_arr b,int n)
+{
+    t_typ_d tmp1=0.0,tmp2=0.0;
+    size_t i,j;
+    for(i=0;i<n;i++)
+        {
+            for(j=0;j<n;j++)
+                tmp1+=fabs(b[i][j]);
+            if(tmp1>tmp2)tmp2=tmp1;
+            tmp1=0.0;
+         }
+return tmp2;
+}
+
+t_typ_d evclid_norma_matr(t_arr b,int n)
+ {
+    t_typ_d tmp1=0.0,tmp2=0.0;
+    size_t i,j;
+    for(i=0;i<n;i++)
+        for(j=0;j<n;j++)
+            if(i!=j)tmp1+=b[i][j]*b[i][j];
+  tmp2=sqrt(tmp1);
+return tmp2;
+}
+t_typ_d inf_norma_matr(t_arr b,int n)
+{
+    t_typ_d tmp1=0.0,tmp2=0.0;
+    size_t i,j;
+    for(i=0;i<n;i++)
+        {
+            for(j=0;j<n;j++)
+                if(i!=j)tmp1+=fabs(b[j][i]);
+            if(tmp1>tmp2)tmp2=tmp1;
+            tmp1=0.0;
+         }
+return tmp2;
+}
+t_typ_d inf_norma_vect(t_d c,int n)
+{
+    t_typ_d tmp1=0.0,tmp2=0.0;
+    size_t i;
+    for(i=0;i<n;i++)
+        {
+            tmp1=fabs(c[i]);
+            if(tmp1>tmp2)tmp2=tmp1;
+            tmp1=0.0;
+         }
+return tmp2;
+}
+
+t_d itteration(t_arr a,int n,t_d eps)
+{
+    t_arr b=create_matr(n,n);
+    t_d c=calloc(sizeof(t_typ_d),n),x;//=calloc(sizeof(t_typ_d),n);
+    treyg(a,b,c,n);
+    t_typ_d b_n_1=one_norma_matr(b,n);
+    t_typ_d b_n_inf=inf_norma_matr(b,n);
+    int t;
+    x=matr_in_vect(b,n,n,c,n,&t);
+
+
+
+    return x;
+}
+
+int main()
+{
+    int m,n;
+    t_typ_d eps=0.01;
+    printf("write matr m n \n");
+    scanf("%i%i",&m,&n);
+
+     t_arr a=create_matr(m,n);
+     read_matr(a,m,n);
+
+    return 0;
+}
