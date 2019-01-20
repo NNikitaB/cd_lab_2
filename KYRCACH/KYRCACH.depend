@@ -1,0 +1,32 @@
+# depslib dependency file v1.0
+1542328259 source:d:\project codeblocs\kyrcach\main.c
+	"ONE_LIST_KYRSCH.h"
+
+1541166718 d:\project codeblocs\kyrcach\one_list_kyrsch.h
+	<stdlib.h>
+	<stdio.h>
+	<string.h>
+
+1541138079 d:\project codeblocs\kyrcach\one_list_kyrsch.c
+	"ONE_LIST_KYRSCH.h"
+
+1541137898 d:\\project codeblocs\\kyrcach\\one_list_kyrsch.h
+	<stdlib.h>
+	<stdio.h>
+	<string.h>
+
+1542323474 source:d:\project codeblocs\kyrcach\one_list_kyrsch.c
+	"ONE_LIST_KYRSCH.h"
+
+1542323474 source:d:\cods\kyrcach\one_list_kyrsch.c
+	"ONE_LIST_KYRSCH.h"
+
+1541166718 d:\cods\kyrcach\one_list_kyrsch.h
+	<stdlib.h>
+	<stdio.h>
+	<string.h>
+
+1542386851 source:d:\cods\kyrcach\main.c
+	"ONE_LIST_KYRSCH.h"
+	<math.h>
+
