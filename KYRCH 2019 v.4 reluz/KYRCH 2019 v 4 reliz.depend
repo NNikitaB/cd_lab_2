@@ -1,0 +1,37 @@
+# depslib dependency file v1.0
+1548787640 source:d:\cods\kyrch 2019 v.4 reluz\main.c
+	<stdio.h>
+	<stdlib.h>
+	"LIST_K.h"
+	"fileio.h"
+	"poligon.h"
+	<math.h>
+
+1548757655 d:\cods\kyrch 2019 v.4 reluz\list_k.h
+	<stdlib.h>
+	<stdio.h>
+	<string.h>
+
+1548757655 d:\cods\kyrch 2019 v.4 reluz\fileio.h
+	<stdio.h>
+	<stdlib.h>
+	"LIST_K.h"
+
+1548788561 d:\cods\kyrch 2019 v.4 reluz\poligon.h
+	<stdio.h>
+	<stdlib.h>
+	"LIST_K.h"
+	"fileio.h"
+	<math.h>
+
+1548757655 source:d:\cods\kyrch 2019 v.4 reluz\fileio.c
+	"fileio.h"
+
+1548757655 source:d:\cods\kyrch 2019 v.4 reluz\list_k.c
+	"LIST_K.h"
+
+1548788010 source:d:\cods\kyrch 2019 v.4 reluz\poligon.c
+	"poligon.h"
+
+1548758676 source:d:\cods\kyrch 2019 v.4 reluz\02.c
+
