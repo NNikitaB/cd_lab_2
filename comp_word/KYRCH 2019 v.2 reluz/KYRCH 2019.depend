@@ -1,0 +1,69 @@
+# depslib dependency file v1.0
+1547650614 source:d:\cods\kyrch 2019\main.c
+	<stdio.h>
+	<stdlib.h>
+	"LIST_K.h"
+	"fileio.h"
+	"poligon.h"
+	<math.h>
+
+1547567285 source:d:\cods\kyrch 2019\list_k.c
+	"LIST_K.h"
+
+1547612002 d:\cods\kyrch 2019\list_k.h
+	<stdlib.h>
+	<stdio.h>
+	<string.h>
+
+1547566945 source:d:\cods\kyrch 2019\fileio.c
+	"fileio.h"
+
+1547560985 d:\cods\kyrch 2019\fileio.h
+	<stdio.h>
+	<stdlib.h>
+	"LIST_K.h"
+
+1547733082 source:d:\cods\kyrch 2019\poligon.c
+	"poligon.h"
+
+1547655539 d:\cods\kyrch 2019\poligon.h
+	<stdio.h>
+	<stdlib.h>
+	"LIST_K.h"
+	"fileio.h"
+	<math.h>
+
+1547566945 source:d:\cods\kyrch 2019 v.1\fileio.c
+	"fileio.h"
+
+1547560985 d:\cods\kyrch 2019 v.1\fileio.h
+	<stdio.h>
+	<stdlib.h>
+	"LIST_K.h"
+
+1547612002 d:\cods\kyrch 2019 v.1\list_k.h
+	<stdlib.h>
+	<stdio.h>
+	<string.h>
+
+1547567285 source:d:\cods\kyrch 2019 v.1\list_k.c
+	"LIST_K.h"
+
+1547650614 source:d:\cods\kyrch 2019 v.1\main.c
+	<stdio.h>
+	<stdlib.h>
+	"LIST_K.h"
+	"fileio.h"
+	"poligon.h"
+	<math.h>
+
+1547655539 d:\cods\kyrch 2019 v.1\poligon.h
+	<stdio.h>
+	<stdlib.h>
+	"LIST_K.h"
+	"fileio.h"
+	<math.h>
+
+1547806182 source:d:\cods\kyrch 2019 v.1\poligon.c
+	"poligon.h"
+

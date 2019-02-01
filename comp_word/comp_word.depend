@@ -1,0 +1,28 @@
+# depslib dependency file v1.0
+1549024537 source:d:\cods\comp_word\fileio.c
+	"fileio.h"
+
+1549022781 d:\cods\comp_word\fileio.h
+	<stdio.h>
+	<stdlib.h>
+	"LIST_K.h"
+	<string.h>
+	<unistd.h>
+	<io.h>
+
+1548529704 d:\cods\comp_word\list_k.h
+	<stdlib.h>
+	<stdio.h>
+	<string.h>
+
+1548530343 source:d:\cods\comp_word\list_k.c
+	"LIST_K.h"
+
+1549023034 source:d:\cods\comp_word\main.c
+	<locale.h>
+	<stdio.h>
+	<stdlib.h>
+	"LIST_K.h"
+	"fileio.h"
+	<math.h>
+
